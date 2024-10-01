@@ -7,12 +7,12 @@ class Funcionarios:
 
 class Gerentes(Funcionarios):
     def __init__(self) -> None:
-        self.oi = 5
-        
-    def print_teste(self):
-        print(super().__init__())
-        
+        pass
 
 class adm_seguranca(Funcionarios):
     pass
+
+class diretor(Funcionarios):
+    def __init__(self, id, nome, salario) -> None:
+        super().__init__(id, nome, salario)
     
