@@ -1,3 +1,5 @@
+# Criação dos objetos que representam as áreas da empresa
+
 class Area:
     def __init__(self, nome, nivel_acesso, capacidade_maxima):
         self.nome = nome
@@ -37,5 +39,3 @@ class SalaControle(Area):
 class Cofre(Area):
     def __init__(self):
         super().__init__(nome="Cofre Principal", nivel_acesso=3, capacidade_maxima=2)
-
-
