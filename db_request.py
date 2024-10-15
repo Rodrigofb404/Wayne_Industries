@@ -4,10 +4,10 @@ from mysql.connector import Error
 def conectar_banco():    
     try:
         conexao = mysql.connector.connect(
-            host="####",
-            user="####",
-            database="####",
-            password="####"
+            host="localhost",
+            user="root",
+            database="wayne_db",
+            password="7854"
         )
 
         if conexao.is_connected():
@@ -18,25 +18,21 @@ def conectar_banco():
         print(f"Erro ao conectar: {e}")
         return None
 
-def consulta(nome):
+def consulta_nivel_seguranca(usuario, senha):
     conexao = conectar_banco()  
-
-    if conexao is None:
-        print("Não foi possível conectar ao banco de dados.")
-        return None
-
+    
     try:
         cursor = conexao.cursor()
 
-        sql = "SELECT nivel_seguranca FROM Funcionarios WHERE nome = %s"
-        cursor.execute(sql, (nome,))
+        sql = "SELECT Nivel_seguranca FROM Funcionarios WHERE Usuario = %s AND Senha = %s"
+        cursor.execute(sql, (usuario, senha))
 
         resultado = cursor.fetchone() 
 
         if resultado:
             return resultado[0]
         else:
-            print(f"Nenhum funcionário encontrado com o nome: {nome}")
+            print("Usuário e senha não encontrados")
             return None
 
     except Error as e:
@@ -46,4 +42,3 @@ def consulta(nome):
     finally:
         cursor.close()    
         conexao.close()
-
