@@ -140,6 +140,7 @@ def nivel1_page(page):
             spacing=20,
             alignment=ft.MainAxisAlignment.CENTER
         ),
+        border_radius=10,
         alignment=ft.alignment.center,
         padding=10
     )
@@ -192,6 +193,7 @@ def nivel2_page(page):
             spacing=20,
             alignment=ft.MainAxisAlignment.CENTER
         ),
+        border_radius=10,
         alignment=ft.alignment.center,
         padding=10
     )
@@ -233,6 +235,7 @@ def nivel3_page(page):
             spacing=20,
             alignment=ft.MainAxisAlignment.CENTER
         ),
+        border_radius=10,
         alignment=ft.alignment.center,
         padding=10
     )
@@ -273,21 +276,46 @@ def inventario_page(page):
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.bgcolor = ft.colors.WHITE
 
+    # Funções de atualização de inventário e atualização da página
+    def atualizar_quantidade(id_produto, acao):
+        if acao == "add":
+            db.add_to_inventory(id_produto)
+        elif acao == "remove":
+            db.remove_from_inventory(id_produto)
+        inventario_page(page)  # Recarrega a página para exibir o inventário atualizado
+
     # Verifica se o inventário está vazio
     if inventario:
         # Cria uma tabela de itens do inventário com 3 colunas
         tabela_inventario = ft.DataTable(
             columns=[
-                ft.DataColumn(ft.Text("ID",color=ft.colors.BLACK)),
-                ft.DataColumn(ft.Text("Produto",color=ft.colors.BLACK)),
-                ft.DataColumn(ft.Text("Quantidade",color=ft.colors.BLACK)),
+                ft.DataColumn(ft.Text("ID", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
+                ft.DataColumn(ft.Text("Produto", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
+                ft.DataColumn(ft.Text("Quantidade", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
             ],
             rows=[
                 ft.DataRow(
                     cells=[
-                        ft.DataCell(ft.Text(str(item[0]), color=ft.colors.BLACK)),  # ID
-                        ft.DataCell(ft.Text(item[1], color=ft.colors.BLACK)),        # Produto
-                        ft.DataCell(ft.Text(str(item[2]),color=ft.colors.BLACK)),  # Quantidade
+                        ft.DataCell(ft.Text(str(item[0]), color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),  # ID
+                        ft.DataCell(ft.Text(item[1], color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),        # Produto
+                        ft.DataCell(
+                            ft.Row(
+                                [
+                                    ft.Text(str(item[2]), color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER),  # Quantidade
+                                    ft.IconButton(
+                                        icon=ft.icons.ADD,
+                                        icon_color=ft.colors.GREEN,
+                                        on_click=lambda e, id_prod=item[0]: atualizar_quantidade(id_prod, "add")  # Incrementar
+                                    ),
+                                    ft.IconButton(
+                                        icon=ft.icons.REMOVE,
+                                        icon_color=ft.colors.RED,
+                                        on_click=lambda e, id_prod=item[0]: atualizar_quantidade(id_prod, "remove")  # Decrementar
+                                    )
+                                ],
+                                alignment=ft.MainAxisAlignment.CENTER
+                            )
+                        )
                     ]
                 ) for item in inventario
             ],
@@ -302,7 +330,7 @@ def inventario_page(page):
             weight=ft.FontWeight.BOLD
         )
 
-    # Adiciona a tabela ou mensagem ao layout
+    # Adiciona a tabela ou mensagem ao layout com rolagem na coluna
     page.controls.clear()
     page.add(
         ft.Column(
@@ -312,10 +340,12 @@ def inventario_page(page):
             ],
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=20
+            spacing=20,
+            scroll=ft.ScrollMode.ALWAYS  # Habilita o scroll na coluna
         )
     )
     page.update()
+
 
 def main(page: ft.Page):
     def route_change(route):
