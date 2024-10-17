@@ -263,72 +263,59 @@ def acesso_permitido_page(page):
     page.controls.clear()
     page.add(container)
 
-
-import flet as ft
-import db_request as db
-
 def inventario_page(page):
-    page.title = "Inventário"
+    # Consulta o inventário
+    inventario = db.consulta_inventario()
+
+    # Título da página
+    page.title = "Inventário - Wayne Industries"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.bgcolor = ft.colors.WHITE
 
-    # Chama a função consulta_inventario que retorna uma lista de tuplas
-    inventario = db.consulta_inventario()
-    print(inventario)  # Verificar o retorno da consulta
-
+    # Verifica se o inventário está vazio
     if inventario:
-        headers = [
-            ft.DataColumn(ft.Text("ID Produto")),
-            ft.DataColumn(ft.Text("Produto")),
-            ft.DataColumn(ft.Text("Quantidade")),
-        ]
-
-        rows = []
-        for item in inventario:
-            # Cada item deve ser uma tupla com (ID, Produto, Quantidade)
-            rows.append(ft.DataRow(
-                cells=[
-                    ft.DataCell(ft.Text(str(item[0]))),  # ID Produto
-                    ft.DataCell(ft.Text(item[1])),       # Produto
-                    ft.DataCell(ft.Text(str(item[2])))   # Quantidade
-                ]
-            ))
-
-        # Cria a tabela com os dados
+        # Cria uma tabela de itens do inventário com 3 colunas
         tabela_inventario = ft.DataTable(
-            columns=headers,
-            rows=rows,
-            border_radius=10,
-            heading_text_style=ft.TextStyle(weight=ft.FontWeight.BOLD),
-            bgcolor=ft.colors.GREY_200,
-            column_spacing=20,
-            horizontal_lines=True,
-            vertical_lines=True,
-        )
-
-        container = ft.Container(
-            content=ft.Column(
-                controls=[tabela_inventario],
-                scroll=ft.ScrollMode.ALWAYS,  # Habilita o scroll sempre que necessário
-            ),
-            padding=20,
-            alignment=ft.alignment.center,
-            height=500,  # Defina uma altura fixa para permitir a rolagem
-            bgcolor=ft.colors.GREY_300
+            columns=[
+                ft.DataColumn(ft.Text("ID",color=ft.colors.BLACK)),
+                ft.DataColumn(ft.Text("Produto",color=ft.colors.BLACK)),
+                ft.DataColumn(ft.Text("Quantidade",color=ft.colors.BLACK)),
+            ],
+            rows=[
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text(str(item[0]), color=ft.colors.BLACK)),  # ID
+                        ft.DataCell(ft.Text(item[1], color=ft.colors.BLACK)),        # Produto
+                        ft.DataCell(ft.Text(str(item[2]),color=ft.colors.BLACK)),  # Quantidade
+                    ]
+                ) for item in inventario
+            ],
+            width=500,
+            column_spacing=10
         )
     else:
-        container = ft.Container(
-            content=ft.Text("O inventário está vazio.", size=20),
-            alignment=ft.alignment.center,
-            padding=20
+        tabela_inventario = ft.Text(
+            "Inventário vazio.",
+            size=20,
+            color=ft.colors.RED,
+            weight=ft.FontWeight.BOLD
         )
 
+    # Adiciona a tabela ou mensagem ao layout
     page.controls.clear()
-    page.add(container)
-    page.update()  # Atualiza a página com os novos controles
-
-
+    page.add(
+        ft.Column(
+            controls=[
+                ft.Text("Inventário", size=40, color=ft.colors.BLACK),
+                tabela_inventario
+            ],
+            alignment=ft.MainAxisAlignment.CENTER,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            spacing=20
+        )
+    )
+    page.update()
 
 def main(page: ft.Page):
     def route_change(route):
