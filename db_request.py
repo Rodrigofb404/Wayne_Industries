@@ -70,3 +70,52 @@ def consulta_inventario():
     finally:
         cursor.close()
         conexao.close()
+
+def add_to_inventory(id_produto):
+    conexao = conectar_banco()
+    
+    try:
+        cursor = conexao.cursor()
+
+        sql = """
+        UPDATE Inventario
+        SET Quantidade = Quantidade + 1
+        WHERE id_produto = %s
+        """
+        cursor.execute(sql, (id_produto,))
+
+        # Confirma a transação
+        conexao.commit()
+        print(f"Quantidade do produto com ID {id_produto} foi incrementada com sucesso.")
+        
+    except Error as e:
+        print(f'Erro: {e}')
+        return None
+
+    finally:
+        cursor.close()
+        conexao.close()
+
+def remove_from_inventory(id_produto):
+    conexao = conectar_banco()
+    
+    try:
+        cursor = conexao.cursor()
+
+        sql = """
+        UPDATE Inventario
+        SET Quantidade = Quantidade - 1
+        WHERE id_produto = %s
+        """
+        cursor.execute(sql, (id_produto,))
+
+        conexao.commit()
+        print(f"Quantidade do produto com ID {id_produto} foi decrementada com sucesso.")
+        
+    except Error as e:
+        print(f'Erro: {e}')
+        return None
+
+    finally:
+        cursor.close()
+        conexao.close()
