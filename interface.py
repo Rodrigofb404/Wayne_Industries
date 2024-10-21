@@ -28,6 +28,9 @@ def login_page(page):
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.bgcolor = ft.colors.GREY_50
 
+    # Limpa os controles da página antes de adicionar novos componentes
+    page.controls.clear()
+
     img = ft.Image(
         src="wayne_logo.png",
         width=250,
@@ -74,6 +77,7 @@ def login_page(page):
     )
 
     page.add(img, titulo, container)
+    page.update()
 
 # Páginas correspondentes ao nível de segurança 1
 
@@ -250,6 +254,16 @@ def acesso_permitido_page(page):
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.bgcolor = ft.colors.BLACK
 
+    # Botão de sair posicionado no canto superior esquerdo da janela
+    btn_sair = ft.ElevatedButton(
+        text="Sair",
+        width=100,
+        bgcolor=ft.colors.RED,
+        color=ft.colors.WHITE,
+        on_click=lambda _: page.go("/")  # Redireciona para a página de login
+    )
+
+    # Texto de acesso permitido
     acesso_text = ft.Text(
         "ACESSO PERMITIDO",
         size=50,
@@ -257,14 +271,31 @@ def acesso_permitido_page(page):
         weight=ft.FontWeight.BOLD
     )
 
-    container = ft.Container(
-        content=acesso_text,
-        alignment=ft.alignment.center,
-        padding=20
+    # Layout principal da página
+    page.controls.clear()
+
+    # Adicionando o botão "Sair" no canto superior esquerdo
+    page.add(
+        ft.Column(
+            [
+                # Colocando o botão "Sair" no topo
+                ft.Row(
+                    [btn_sair],
+                    alignment=ft.MainAxisAlignment.START  # Alinha o botão no canto esquerdo
+                ),
+                # Mensagem "Acesso Permitido" centralizada
+                ft.Container(
+                    content=acesso_text,
+                    alignment=ft.alignment.center,
+                    expand=True  # Expande o contêiner para centralizar o texto
+                )
+            ],
+            expand=True  # Expande a coluna para ocupar todo o espaço da página
+        )
     )
 
-    page.controls.clear()
-    page.add(container)
+    page.update()
+
 
 def inventario_page(page):
     # Consulta o inventário
@@ -282,35 +313,45 @@ def inventario_page(page):
             db.add_to_inventory(id_produto)
         elif acao == "remove":
             db.remove_from_inventory(id_produto)
-        inventario_page(page)  # Recarrega a página para exibir o inventário atualizado
+        # Recarrega a página para exibir o inventário atualizado
+        inventario_page(page)
 
     # Verifica se o inventário está vazio
     if inventario:
         # Cria uma tabela de itens do inventário com 3 colunas
         tabela_inventario = ft.DataTable(
             columns=[
-                ft.DataColumn(ft.Text("ID", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
-                ft.DataColumn(ft.Text("Produto", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
-                ft.DataColumn(ft.Text("Quantidade", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
+                ft.DataColumn(ft.Text("ID", color=ft.colors.BLACK,
+                              text_align=ft.TextAlign.CENTER)),
+                ft.DataColumn(
+                    ft.Text("Produto", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
+                ft.DataColumn(
+                    ft.Text("Quantidade", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
             ],
             rows=[
                 ft.DataRow(
                     cells=[
-                        ft.DataCell(ft.Text(str(item[0]), color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),  # ID
-                        ft.DataCell(ft.Text(item[1], color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),        # Produto
+                        ft.DataCell(ft.Text(
+                            str(item[0]), color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),  # ID
+                        ft.DataCell(ft.Text(
+                            item[1], color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),        # Produto
                         ft.DataCell(
                             ft.Row(
                                 [
-                                    ft.Text(str(item[2]), color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER),  # Quantidade
+                                    # Quantidade
+                                    ft.Text(
+                                        str(item[2]), color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER),
                                     ft.IconButton(
                                         icon=ft.icons.ADD,
                                         icon_color=ft.colors.GREEN,
-                                        on_click=lambda e, id_prod=item[0]: atualizar_quantidade(id_prod, "add")  # Incrementar
+                                        on_click=lambda e, id_prod=item[0]: atualizar_quantidade(
+                                            id_prod, "add")  # Incrementar
                                     ),
                                     ft.IconButton(
                                         icon=ft.icons.REMOVE,
                                         icon_color=ft.colors.RED,
-                                        on_click=lambda e, id_prod=item[0]: atualizar_quantidade(id_prod, "remove")  # Decrementar
+                                        on_click=lambda e, id_prod=item[0]: atualizar_quantidade(
+                                            id_prod, "remove")  # Decrementar
                                     )
                                 ],
                                 alignment=ft.MainAxisAlignment.CENTER
@@ -333,15 +374,19 @@ def inventario_page(page):
     # Adiciona a tabela ou mensagem ao layout com rolagem na coluna
     page.controls.clear()
     page.add(
-        ft.Column(
-            controls=[
-                ft.Text("Inventário", size=40, color=ft.colors.BLACK),
-                tabela_inventario
-            ],
-            alignment=ft.MainAxisAlignment.CENTER,
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=20,
-            scroll=ft.ScrollMode.ALWAYS  # Habilita o scroll na coluna
+        ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Text("Inventário", size=40, color=ft.colors.BLACK),
+                    tabela_inventario
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                spacing=20,
+                scroll=ft.ScrollMode.ALWAYS  # Habilita o scroll na coluna
+            ),
+            height=550,  # Define uma altura fixa para o contêiner, permitindo o scroll quando o conteúdo exceder
+            width=550
         )
     )
     page.update()
