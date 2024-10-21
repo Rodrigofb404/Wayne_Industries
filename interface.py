@@ -28,7 +28,6 @@ def login_page(page):
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.bgcolor = ft.colors.GREY_50
 
-    # Limpa os controles da página antes de adicionar novos componentes
     page.controls.clear()
 
     img = ft.Image(
@@ -39,7 +38,6 @@ def login_page(page):
     )
     titulo = ft.Text("Wayne Industries", size=50, color="Black")
 
-    # Campos de texto para entrada do usuário e senha
     usuario = ft.TextField(
         label="Usuário",
         autofocus=True,
@@ -53,14 +51,12 @@ def login_page(page):
         border_color=ft.colors.WHITE
     )
 
-    # Botão de login que chama a função de validação
     btn = ft.ElevatedButton(
         text="Login",
         width=125,
         on_click=lambda _: validar_login(usuario, senha, page)
     )
 
-    # Container do formulário de login
     container = ft.Container(
         content=ft.Column(
             controls=[usuario, senha, btn],
@@ -79,8 +75,6 @@ def login_page(page):
     page.add(img, titulo, container)
     page.update()
 
-# Páginas correspondentes ao nível de segurança 1
-
 
 def nivel1_page(page):
     page.title = "Áreas Restritas Nível 1 - Wayne Industries"
@@ -89,9 +83,8 @@ def nivel1_page(page):
     page.bgcolor = ft.colors.WHITE
 
     container_1 = ft.Container(
-        content=ft.ElevatedButton(text="Área Comum", width=400, height=80, style=ft.ButtonStyle(
+        content=ft.ElevatedButton(text="Área Comum", width=400, height=70, style=ft.ButtonStyle(
             bgcolor=ft.colors.GREEN_200, color=ft.colors.WHITE, text_style=ft.TextStyle(size=30)),
-            # Redireciona para a página de acesso permitido
             on_click=lambda _: page.go("/acesso-permitido")
         ),
         alignment=ft.alignment.center,
@@ -99,7 +92,7 @@ def nivel1_page(page):
     )
 
     container_2 = ft.Container(
-        content=ft.ElevatedButton(text="Laboratório", width=400, height=80, style=ft.ButtonStyle(
+        content=ft.ElevatedButton(text="Laboratório", width=400, height=70, style=ft.ButtonStyle(
             bgcolor=ft.colors.GREEN_200, color=ft.colors.WHITE, text_style=ft.TextStyle(size=30)),
             on_click=lambda _: page.go("/acesso-permitido")
         ),
@@ -108,7 +101,7 @@ def nivel1_page(page):
     )
 
     container_3 = ft.Container(
-        content=ft.ElevatedButton(text="Sala de Controle", width=400, height=80, style=ft.ButtonStyle(
+        content=ft.ElevatedButton(text="Sala de Controle", width=400, height=70, style=ft.ButtonStyle(
             bgcolor=ft.colors.GREEN_200, color=ft.colors.WHITE, text_style=ft.TextStyle(size=30)),
             on_click=lambda _: page.go("/acesso-permitido")
         ),
@@ -117,7 +110,7 @@ def nivel1_page(page):
     )
 
     container_4 = ft.Container(
-        content=ft.ElevatedButton(text="Cofre", width=400, height=80, style=ft.ButtonStyle(
+        content=ft.ElevatedButton(text="Cofre", width=400, height=70, style=ft.ButtonStyle(
             bgcolor=ft.colors.GREEN_200, color=ft.colors.WHITE, text_style=ft.TextStyle(size=30)),
             on_click=lambda _: page.go("/acesso-permitido")
         ),
@@ -126,9 +119,18 @@ def nivel1_page(page):
     )
 
     container_5 = ft.Container(
-        content=ft.ElevatedButton(text="Inventário", width=400, height=80, style=ft.ButtonStyle(
+        content=ft.ElevatedButton(text="Inventário", width=400, height=70, style=ft.ButtonStyle(
             bgcolor=ft.colors.GREEN, color=ft.colors.WHITE, text_style=ft.TextStyle(size=30)),
             on_click=lambda _: page.go("/inventario")
+        ),
+        alignment=ft.alignment.center,
+        border_radius=10
+    )
+
+    container_dashboard = ft.Container(
+        content=ft.ElevatedButton(text="Dashboard", width=400, height=70, style=ft.ButtonStyle(
+            bgcolor=ft.colors.GREEN, color=ft.colors.WHITE, text_style=ft.TextStyle(size=30)),
+            on_click=lambda _: page.go("/dashboard")
         ),
         alignment=ft.alignment.center,
         border_radius=10
@@ -137,11 +139,11 @@ def nivel1_page(page):
     container_pai = ft.Container(
         bgcolor=ft.colors.BLACK,
         width=600,
-        height=600,
+        height=700,
         content=ft.Column(
-            controls=[container_1, container_2,
-                      container_3, container_4, container_5],
-            spacing=20,
+            controls=[container_1, container_2, container_3, container_4,
+                      container_5, container_dashboard],  # Inclui o dashboard
+            spacing=15,
             alignment=ft.MainAxisAlignment.CENTER
         ),
         border_radius=10,
@@ -152,8 +154,6 @@ def nivel1_page(page):
     page.controls.clear()
     page.add(container_pai)
 
-# Páginas correspondentes ao nível de segurança 2
-
 
 def nivel2_page(page):
     page.title = "Áreas Restritas Nível 2 - Wayne Industries"
@@ -162,7 +162,7 @@ def nivel2_page(page):
     page.bgcolor = ft.colors.WHITE
 
     container_1 = ft.Container(
-        content=ft.ElevatedButton(text="Área Comum", width=400, height=100, style=ft.ButtonStyle(
+        content=ft.ElevatedButton(text="Área Comum", width=400, height=80, style=ft.ButtonStyle(
             bgcolor=ft.colors.GREEN, color=ft.colors.WHITE, text_style=ft.TextStyle(size=30)),
             on_click=lambda _: page.go("/acesso-permitido")
         ),
@@ -171,7 +171,7 @@ def nivel2_page(page):
     )
 
     container_2 = ft.Container(
-        content=ft.ElevatedButton(text="Laboratório", width=400, height=100, style=ft.ButtonStyle(
+        content=ft.ElevatedButton(text="Laboratório", width=400, height=80, style=ft.ButtonStyle(
             bgcolor=ft.colors.GREEN, color=ft.colors.WHITE, text_style=ft.TextStyle(size=30)),
             on_click=lambda _: page.go("/acesso-permitido")
         ),
@@ -180,9 +180,18 @@ def nivel2_page(page):
     )
 
     container_3 = ft.Container(
-        content=ft.ElevatedButton(text="Sala de Controle", width=400, height=100, style=ft.ButtonStyle(
+        content=ft.ElevatedButton(text="Sala de Controle", width=400, height=80, style=ft.ButtonStyle(
             bgcolor=ft.colors.GREEN, color=ft.colors.WHITE, text_style=ft.TextStyle(size=30)),
             on_click=lambda _: page.go("/acesso-permitido")
+        ),
+        alignment=ft.alignment.center,
+        border_radius=10
+    )
+
+    container_dashboard = ft.Container(
+        content=ft.ElevatedButton(text="Dashboard", width=400, height=80, style=ft.ButtonStyle(
+            bgcolor=ft.colors.GREEN, color=ft.colors.WHITE, text_style=ft.TextStyle(size=30)),
+            on_click=lambda _: page.go("/dashboard")
         ),
         alignment=ft.alignment.center,
         border_radius=10
@@ -193,7 +202,8 @@ def nivel2_page(page):
         width=600,
         height=600,
         content=ft.Column(
-            controls=[container_1, container_2, container_3],
+            controls=[container_1, container_2, container_3,
+                      container_dashboard], 
             spacing=20,
             alignment=ft.MainAxisAlignment.CENTER
         ),
@@ -248,22 +258,132 @@ def nivel3_page(page):
     page.add(container_pai)
 
 
+def dashboard_page(page: ft.Page):
+    normal_radius = 100
+    hover_radius = 130
+    normal_title_style = ft.TextStyle(
+        size=18, color=ft.colors.WHITE, weight=ft.FontWeight.BOLD
+    )
+    hover_title_style = ft.TextStyle(
+        size=24,
+        color=ft.colors.WHITE,
+        weight=ft.FontWeight.BOLD,
+        shadow=ft.BoxShadow(blur_radius=4, color=ft.colors.BLACK54),
+    )
+
+    def on_chart_event(e: ft.PieChartEvent):
+        for idx, section in enumerate(chart.sections):
+            if idx == e.section_index:
+                section.radius = hover_radius
+                section.title_style = hover_title_style
+            else:
+                section.radius = normal_radius
+                section.title_style = normal_title_style
+        chart.update()
+
+    def sair():
+        page.go("/")  
+
+    funcionarios = db.consulta_funcionarios()
+    niveis_seguranca = {}
+
+    if funcionarios:
+        for item in funcionarios:
+            nivel = item[4]  
+            if nivel in niveis_seguranca:
+                niveis_seguranca[nivel] += 1
+            else:
+                niveis_seguranca[nivel] = 1
+
+    pie_sections = []
+
+    cores = [ft.colors.RED, ft.colors.GREEN,
+             ft.colors.ORANGE]
+
+    for idx, (nivel, quantidade) in enumerate(niveis_seguranca.items()):
+        cor = cores[idx % len(cores)]
+        pie_sections.append(
+            ft.PieChartSection(
+                quantidade,
+                title=f"Nível {nivel}: {quantidade}",
+                title_style=normal_title_style,
+                color=cor, 
+                radius=normal_radius,
+            )
+        )
+
+    if not pie_sections:
+        page.add(
+            ft.Text("Nenhum dado disponível para o gráfico.", color=ft.colors.RED))
+        return 
+
+    chart = ft.PieChart(
+        sections=pie_sections,
+        sections_space=5, 
+        center_space_radius=40,
+        on_chart_event=on_chart_event,
+        expand=True,
+    )
+
+    page.title = "Dashboard - Wayne Industries"
+    page.bgcolor = ft.colors.WHITE
+    page.vertical_alignment = ft.MainAxisAlignment.START 
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+
+    page.controls.clear()
+
+    sair_button = ft.ElevatedButton(
+        text="Sair",
+        on_click=lambda e: sair(),
+        color=ft.colors.WHITE,
+        bgcolor=ft.colors.RED,
+        style=ft.ButtonStyle(
+            shape=ft.RoundedRectangleBorder(radius=10),
+        ),
+    )
+
+    page.add(
+        ft.Row(
+            controls=[sair_button],
+            alignment=ft.MainAxisAlignment.START,
+            spacing=10,  
+        )
+    )
+
+    page.add(
+        ft.Column(
+            controls=[
+                ft.Text("Dashboard", size=48, weight=ft.FontWeight.BOLD, color=ft.colors.BLACK,
+                        text_align=ft.alignment.center), 
+                chart,
+                ft.Text(
+                    f"Total de Funcionários: {len(funcionarios)}", size=24, weight=ft.FontWeight.BOLD, color=ft.colors.BLACK)
+            ],
+            alignment=ft.MainAxisAlignment.CENTER,
+            spacing=30, 
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER, 
+        )
+    )
+    page.update()
+
+
+
+
+
 def acesso_permitido_page(page):
     page.title = "Acesso Permitido - Wayne Industries"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.bgcolor = ft.colors.BLACK
 
-    # Botão de sair posicionado no canto superior esquerdo da janela
     btn_sair = ft.ElevatedButton(
         text="Sair",
         width=100,
         bgcolor=ft.colors.RED,
         color=ft.colors.WHITE,
-        on_click=lambda _: page.go("/")  # Redireciona para a página de login
+        on_click=lambda _: page.go("/")  
     )
 
-    # Texto de acesso permitido
     acesso_text = ft.Text(
         "ACESSO PERMITIDO",
         size=50,
@@ -271,26 +391,22 @@ def acesso_permitido_page(page):
         weight=ft.FontWeight.BOLD
     )
 
-    # Layout principal da página
     page.controls.clear()
 
-    # Adicionando o botão "Sair" no canto superior esquerdo
     page.add(
         ft.Column(
             [
-                # Colocando o botão "Sair" no topo
                 ft.Row(
                     [btn_sair],
-                    alignment=ft.MainAxisAlignment.START  # Alinha o botão no canto esquerdo
+                    alignment=ft.MainAxisAlignment.START  
                 ),
-                # Mensagem "Acesso Permitido" centralizada
                 ft.Container(
                     content=acesso_text,
                     alignment=ft.alignment.center,
-                    expand=True  # Expande o contêiner para centralizar o texto
+                    expand=True 
                 )
             ],
-            expand=True  # Expande a coluna para ocupar todo o espaço da página
+            expand=True
         )
     )
 
@@ -298,60 +414,55 @@ def acesso_permitido_page(page):
 
 
 def inventario_page(page):
-    # Consulta o inventário
     inventario = db.consulta_inventario()
 
-    # Título da página
     page.title = "Inventário - Wayne Industries"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.bgcolor = ft.colors.WHITE
 
-    # Funções de atualização de inventário e atualização da página
     def atualizar_quantidade(id_produto, acao):
         if acao == "add":
             db.add_to_inventory(id_produto)
         elif acao == "remove":
             db.remove_from_inventory(id_produto)
-        # Recarrega a página para exibir o inventário atualizado
         inventario_page(page)
 
-    # Verifica se o inventário está vazio
+    def adicionar_item(e):
+        produto = input_produto.value
+        quantidade = int(input_quantidade.value)
+
+        if produto and quantidade > 0:
+            db.adicionar_item_inventario(produto, quantidade)
+            inventario_page(page)
+        else:
+            print("Por favor, insira um nome de produto e uma quantidade válida.")
+
     if inventario:
-        # Cria uma tabela de itens do inventário com 3 colunas
         tabela_inventario = ft.DataTable(
             columns=[
-                ft.DataColumn(ft.Text("ID", color=ft.colors.BLACK,
-                              text_align=ft.TextAlign.CENTER)),
-                ft.DataColumn(
-                    ft.Text("Produto", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
-                ft.DataColumn(
-                    ft.Text("Quantidade", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
+                ft.DataColumn(ft.Text("ID", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
+                ft.DataColumn(ft.Text("Produto", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
+                ft.DataColumn(ft.Text("Quantidade", color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),
             ],
             rows=[
                 ft.DataRow(
                     cells=[
-                        ft.DataCell(ft.Text(
-                            str(item[0]), color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),  # ID
-                        ft.DataCell(ft.Text(
-                            item[1], color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),        # Produto
+                        ft.DataCell(ft.Text(str(item[0]), color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),  # ID
+                        ft.DataCell(ft.Text(item[1], color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER)),        # Produto
                         ft.DataCell(
                             ft.Row(
                                 [
-                                    # Quantidade
-                                    ft.Text(
-                                        str(item[2]), color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER),
+                                    ft.Text(str(item[2]), color=ft.colors.BLACK, text_align=ft.TextAlign.CENTER),
                                     ft.IconButton(
                                         icon=ft.icons.ADD,
                                         icon_color=ft.colors.GREEN,
-                                        on_click=lambda e, id_prod=item[0]: atualizar_quantidade(
-                                            id_prod, "add")  # Incrementar
+                                        on_click=lambda e, id_prod=item[0]: atualizar_quantidade(id_prod, "add")  # Incrementar
                                     ),
                                     ft.IconButton(
                                         icon=ft.icons.REMOVE,
                                         icon_color=ft.colors.RED,
-                                        on_click=lambda e, id_prod=item[0]: atualizar_quantidade(
-                                            id_prod, "remove")  # Decrementar
+                                        on_click=lambda e, id_prod=item[0]: atualizar_quantidade(id_prod, "remove")  # Decrementar
                                     )
                                 ],
                                 alignment=ft.MainAxisAlignment.CENTER
@@ -371,25 +482,46 @@ def inventario_page(page):
             weight=ft.FontWeight.BOLD
         )
 
-    # Adiciona a tabela ou mensagem ao layout com rolagem na coluna
+    input_produto = ft.TextField(label="Produto", width=300, color=ft.colors.BLACK)
+    input_quantidade = ft.TextField(label="Quantidade", width=150, color=ft.colors.BLACK)
+
+    btn_adicionar_item = ft.ElevatedButton(
+        text="Adicionar Item",
+        icon=ft.icons.ADD,
+        on_click=adicionar_item
+    )
+
+    # Botão de Sair
+    btn_sair = ft.ElevatedButton(
+        text="Sair",
+        icon=ft.icons.EXIT_TO_APP,
+        on_click=lambda _: page.go("/")  # Redireciona para a página de login ou inicial
+    )
+
     page.controls.clear()
     page.add(
         ft.Container(
             content=ft.Column(
                 controls=[
                     ft.Text("Inventário", size=40, color=ft.colors.BLACK),
-                    tabela_inventario
+                    tabela_inventario,
+                    ft.Divider(height=20, color=ft.colors.GREY),
+                    ft.Text("Adicionar novo item ao inventário", size=20, color=ft.colors.BLACK),
+                    ft.Row([input_produto, input_quantidade], spacing=10),
+                    btn_adicionar_item,
+                    btn_sair
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                 spacing=20,
-                scroll=ft.ScrollMode.ALWAYS  # Habilita o scroll na coluna
+                scroll=ft.ScrollMode.ALWAYS
             ),
-            height=550,  # Define uma altura fixa para o contêiner, permitindo o scroll quando o conteúdo exceder
+            height=550,
             width=550
         )
     )
     page.update()
+
 
 
 def main(page: ft.Page):
@@ -406,6 +538,8 @@ def main(page: ft.Page):
             acesso_permitido_page(page)
         elif page.route == "/inventario":
             inventario_page(page)
+        elif page.route == "/dashboard":
+            dashboard_page(page)
 
     page.on_route_change = route_change
     page.go("/")
