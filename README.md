@@ -64,6 +64,8 @@ CREATE TABLE Inventario (
     Quantidade INT
 );
 ```
+Após criar as tabelas, insira os dados.  
+**OBS:** Os dados da tabela funcionários só podem ser inserido diretamente pelo MySQL.
 
 ### 4. Configurar Conexão Com o Banco de Dados
 
