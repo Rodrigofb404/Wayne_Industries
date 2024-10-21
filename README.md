@@ -228,6 +228,7 @@ Este arquivo contém funções responsáveis por conectar e realizar operações
 3. O usuário com **Nível de Segurança 1 ou 2** pode acessar o inventário e o dashboard:
    - **Inventário**: O usuário pode consultar, atualizar, adicionar e remover itens do inventário.
    - **Dashboard**: O usuário visualiza um gráfico da distribuição de funcionários por nível de segurança.
-4. O botão "Sair" retorna o usuário para a página de login, permitindo que outro usuário faça login no sistema.
+4. No momento, as outras páginas não possuem funcionalidades implementadas, a única funcionalidade delas é testar a validação de credenciais.
+5. O botão "Sair" retorna o usuário para a página de login, permitindo que outro usuário faça login no sistema.
 
 ---
